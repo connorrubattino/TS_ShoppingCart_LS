@@ -45,12 +45,18 @@
           </nav>
     </header>
     <div class="d-flex flex-row-reverse">
-        <div class="p-2"><button type="button" class="btn btn-success">Let's Go!</button></div>
-        <div class="p-2"><input class="form-control" type="text" placeholder="Age" aria-label="default input example"></div>
-        <div class="p-2"><input class="form-control" type="text" placeholder="Name" aria-label="default input example"></div>
+        <div class="p-2"><button id="login" type="button" class="btn btn-success">Let's Go!</button></div>
+        <div class="p-2"><input id='age' class="form-control" type="text" placeholder="Age" aria-label="default input example"></div>
+        <div class="p-2"><input id='name' class="form-control" type="text" placeholder="Name" aria-label="default input example"></div>
     </div>
-    <div>SHOP</div>
-    <div>CART</div>
+    
+    <div id="shop" class="container">
+        <div class="row" id="shop-items"></div>
+    </div>
+    <div id="cart" class="container">
+        <div class="row" id="cart-items"></div>
+    </div>
+    
     <script src="bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
