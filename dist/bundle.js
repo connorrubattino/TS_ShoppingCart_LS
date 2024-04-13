@@ -43,7 +43,6 @@ class Shop {
         this._items.push(new Item_1.default((0, uuid_1.v4)(), 'Scotty Cameron Putter', 450, 'Top of the line putter from the most coveted brand in the game'));
         this.showItems();
         Shop.myUser.cart = [];
-        Shop.updateCart();
     }
     get items() {
         return this._items;
@@ -59,18 +58,18 @@ class Shop {
         new Shop();
     }
     showItems() {
-        const shopDiv = document.getElementById('shop');
-        if (shopDiv) {
-            for (let item of this.items) {
-                shopDiv.appendChild(item.itemElement());
-            }
-        }
-        else {
-            console.error('Error - no shop found');
-        }
-        // for (let item of this.items) {
-        //     document.getElementById("shop")?.appendChild(item.itemElement());
+        // const shopDiv = document.getElementById('shop')
+        // if (shopDiv) {
+        //     for (let item of this.items){
+        //         shopDiv.appendChild(item.itemElement());
+        //     }
+        // } else {
+        //     console.error('Error - no shop found')
         // }
+        var _a;
+        for (let item of this.items) {
+            (_a = document.getElementById("shop")) === null || _a === void 0 ? void 0 : _a.appendChild(item.itemElement());
+        }
     }
     static updateCart() {
     }
