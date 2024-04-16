@@ -270,127 +270,14 @@ var __webpack_exports__ = {};
 "use strict";
 var exports = __webpack_exports__;
 
-var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-//import { Shop, Item, User } from './Cart';
 const uuid_1 = __webpack_require__(1);
-class Container {
-    constructor(_backgroundColor = 'white', _borderColor = 'black', _borderRadius = '0px', _borderWidth = '1px', _borderStyle = 'solid', _zIndex = 0) {
-        this._backgroundColor = _backgroundColor;
-        this._borderColor = _borderColor;
-        this._borderRadius = _borderRadius;
-        this._borderWidth = _borderWidth;
-        this._borderStyle = _borderStyle;
-        this._zIndex = _zIndex;
-    }
-    get attributes() {
-        return {
-            backgroundColor: this.backgroundColor,
-            borderColor: this.borderColor,
-            borderRadius: this.borderRadius,
-            borderWidth: this.borderWidth,
-            borderStyle: this.borderStyle,
-            zIndex: this.zIndex
-        };
-    }
-    get zIndex() {
-        return this._zIndex;
-    }
-    set zIndex(value) {
-        this._zIndex = value;
-    }
-    get borderStyle() {
-        return this._borderStyle;
-    }
-    set borderStyle(value) {
-        this._borderStyle = value;
-    }
-    get borderWidth() {
-        return this._borderWidth;
-    }
-    set borderWidth(value) {
-        this._borderWidth = value;
-    }
-    get borderRadius() {
-        return this._borderRadius;
-    }
-    set borderRadius(value) {
-        this._borderRadius = value;
-    }
-    get borderColor() {
-        return this._borderColor;
-    }
-    set borderColor(value) {
-        this._borderColor = value;
-    }
-    get backgroundColor() {
-        return this._backgroundColor;
-    }
-    set backgroundColor(value) {
-        this._backgroundColor = value;
-    }
-}
-class ItemContainer extends Container {
-    constructor() {
-        super();
-        this.borderRadius = '10%';
-    }
-}
 class Item {
-    get shop() {
-        return this._shop;
-    }
-    set shop(value) {
-        this._shop = value;
-    }
-    get shape() {
-        return this._shape;
-    }
-    set shape(value) {
-        this._shape = value;
-    }
-    get content() {
-        return this._content;
-    }
-    set content(value) {
-        this._content = value;
-    }
-    get locationLeft() {
-        return this._locationLeft;
-    }
-    set locationLeft(value) {
-        this._locationLeft = value;
-    }
-    get locationTop() {
-        return this._locationTop;
-    }
-    set locationTop(value) {
-        this._locationTop = value;
-    }
-    get height() {
-        return this._height;
-    }
-    set height(value) {
-        this._height = value;
-    }
-    get width() {
-        return this._width;
-    }
-    set width(value) {
-        this._width = value;
-    }
-    constructor(_id = (0, uuid_1.v4)(), _name, _price, _description, _width = 2, _height = 2, _locationTop = 3, _locationLeft = 5, _content = `<div></div>`, _shape = new ItemContainer(), _shop) {
+    constructor(_id = (0, uuid_1.v4)(), _name, _price, _description) {
         this._id = _id;
         this._name = _name;
         this._price = _price;
         this._description = _description;
-        this._width = _width;
-        this._height = _height;
-        this._locationTop = _locationTop;
-        this._locationLeft = _locationLeft;
-        this._content = _content;
-        this._shape = _shape;
-        this._shop = _shop;
     }
     get description() {
         return this._description;
@@ -414,64 +301,32 @@ class Item {
         return this._id;
     }
     itemElement() {
-        let itemCard = document.createElement('div');
-        itemCard.id = this.id;
-        itemCard.innerHTML = `<div class="card text-center mb-3" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">${this.name}</h5>
-          <p class="card-text">${this.description}</p>
-          <p class="card-text">$${this.price}</p>
-          <a href="#" id="${this.id}-add" class="btn btn-primary">Add To Cart</a>
-        </div>
-      </div>`;
-        console.log(itemCard.innerHTML);
-        let addButton = itemCard.querySelector(`#${this.id}-add`);
-        addButton === null || addButton === void 0 ? void 0 : addButton.addEventListener('click', () => {
+        const itemCard = document.createElement('div');
+        itemCard.classList.add('item', 'card');
+        itemCard.innerHTML =
+            `<h5 class="card-title">${this.name}</h5>
+            <p class="card-text">${this.description}</p>
+            <p class="card-text">$${this.price}</p>
+            <button href="#" id="${this.id}-add" class="btn btn-primary">Add To Cart</button>`;
+        const addButton = itemCard.querySelector(`#${this.id}-add`);
+        addButton.addEventListener('click', () => {
             Shop.myUser.addToCart(this);
         });
         return itemCard;
     }
 }
 class Shop {
-    get state() {
-        return this._state;
-    }
-    set state(value) {
-        this._state = Object.assign(Object.assign({}, this.state), value);
-        this.render();
-    }
-    constructor(_items = [], _state = {}, parent = document.body) {
+    constructor(_items = []) {
         this._items = _items;
-        this._state = _state;
-        this.parent = parent;
-        this.parent.innerHTML = '';
-        this.parent.id = 'shop';
-        const newStyle = {
-            display: 'grid',
-            backgroundImage: 'url(f256fa53f4a71faeafdc7d83ece05548.jpg)',
-            gridTemplateColumns: 'repeat(12, 1fr)',
-            gridTemplateRows: 'repeat(12, 1fr)',
-            height: '100vh',
-            columnGap: '5px',
-            rowGap: '5px',
-            aspectRatio: '1 / 1'
-        };
-        Object.assign(this.parent.style, newStyle);
-        const shopContainer = document.getElementById('shop');
-        if (shopContainer) {
-            shopContainer.style.display = 'grid';
-            shopContainer.style.gridTemplateColumns = 'repeat(12, 1fr)';
-            shopContainer.style.gridTemplateRows = 'repeat(12, 1fr)';
-        }
-        // this._items.push(new Item(uuidv4(), 'Golf Ball Sleeve', 15, 'ProV-1 or ProV-1X'));
-        // this._items.push(new Item(uuidv4(), 'TaylorMade Driver', 650, 'The newest driving technology on the planet'));
-        // this._items.push(new Item(uuidv4(), 'Golf Glove', 25, 'Pro-dry - includes ball marker magnet'));
-        // this._items.push(new Item(uuidv4(), 'Electric Push Cart', 1500, 'Never carry your bag again(as long as you bring your remote)'));
-        // this._items.push(new Item(uuidv4(), 'Travis Mathew Golf Polo', 75, 'Comfortable material with new-age style'));
-        // this._items.push(new Item(uuidv4(), 'Scotty Cameron Putter', 450, 'Top of the line putter from the most coveted brand in the game'));
-        this.render();
+        this._items.push(new Item((0, uuid_1.v4)(), 'Golf Ball Sleeve', 15, 'ProV-1 or ProV-1X'));
+        this._items.push(new Item((0, uuid_1.v4)(), 'TaylorMade Driver', 650, 'The newest driving technology on the planet'));
+        this._items.push(new Item((0, uuid_1.v4)(), 'Golf Glove', 25, 'Pro-dry - includes ball marker magnet'));
+        this._items.push(new Item((0, uuid_1.v4)(), 'Electric Push Cart', 1500, 'Never carry your bag again(as long as you bring your remote)'));
+        this._items.push(new Item((0, uuid_1.v4)(), 'Travis Mathew Golf Polo', 75, 'Comfortable material with new-age style'));
+        this._items.push(new Item((0, uuid_1.v4)(), 'Scotty Cameron Putter', 450, 'Top of the line putter from the most coveted brand in the game'));
         this.showItems();
         Shop.myUser.cart = [];
+        Shop.updateCart();
     }
     get items() {
         return this._items;
@@ -483,102 +338,36 @@ class Shop {
         event.preventDefault();
         let nameInput = document.getElementById('name').value;
         let ageInput = parseInt(document.getElementById('age').value);
-        Shop.myUser = User.createUser(nameInput, ageInput);
-        const items = [
-            new Item((0, uuid_1.v4)(), 'Golf Ball Sleeve', 15, 'ProV-1 or ProV-1X', 3, 3, 2, 2),
-            new Item((0, uuid_1.v4)(), 'TaylorMade Driver', 650, 'The newest driving technology on the planet', 3, 3, 2, 6),
-            new Item((0, uuid_1.v4)(), 'Golf Glove', 25, 'Pro-dry - includes ball marker magnet', 3, 3, 2, 10),
-            new Item((0, uuid_1.v4)(), 'Electric Push Cart', 1500, 'Never carry your bag again(as long as you bring your remote)', 3, 3, 6, 2),
-            new Item((0, uuid_1.v4)(), 'Travis Mathew Golf Polo', 75, 'Comfortable material with new-age style', 3, 3, 6, 6),
-            new Item((0, uuid_1.v4)(), 'Scotty Cameron Putter', 450, 'Top of the line putter from the most coveted brand in the game', 3, 3, 6, 10),
-        ];
-        const shop = new Shop(items);
-        shop.showItems();
-    }
-    initializeItemDiv(item) {
-        let div = document.createElement('div');
-        div.id = item.id;
-        const newStyle = {
-            margin: 'auto',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignContent: 'center',
-            padding: '3%',
-            aspectRatio: '1 / 1'
-        };
-        // Set the div styling
-        Object.assign(div.style, newStyle);
-        // Set up the shape for the component
-        Object.assign(div.style, item.shape.attributes);
-        // Set the innerHTML of the div to the component's content
-        div.innerHTML = item.content;
-        return div;
-    }
-    render() {
-        this.parent.innerHTML = '';
-        for (let item of this.items) {
-            let div = this.initializeItemDiv(item);
-            this.placeItem(item, div);
-            this.injectState(item, div);
+        Shop.myUser = User.createUser();
+        new Shop();
+        if (Shop.myUser) {
+            document.getElementById('inputs').remove();
         }
     }
-    placeItem(item, div) {
-        const newStyle = {
-            gridColumnStart: item.locationLeft.toString(),
-            gridColumnEnd: "span " + item.width,
-            gridRowStart: item.locationTop.toString(),
-            gridRowEnd: "span " + item.height
-        };
-        Object.assign(div.style, newStyle);
-        this.parent.append(div);
-    }
     showItems() {
-        // const shopDiv = document.getElementById('shop')
-        // if (shopDiv) {
-        //     for (let item of this.items){
-        //         shopDiv.appendChild(item.itemElement());
-        //     }
-        // } else {
-        //     console.error('Error - no shop found')
-        // }
-        var _a;
-        for (let item of this.items) {
-            (_a = document.getElementById("shop")) === null || _a === void 0 ? void 0 : _a.appendChild(item.itemElement());
-            let div = this.initializeItemDiv(item);
-            this.placeItem(item, div);
+        const shop = document.getElementById('shop');
+        for (const item of this.items) {
+            shop.appendChild(item.itemElement());
         }
     }
     static updateCart() {
-    }
-    injectState(item, div) {
-        div.innerHTML = item.content;
-        let key;
-        for (key in this.state) {
-            if (div.innerHTML.includes(`{{ ${key} }}`)) {
-                div.innerHTML = div.innerHTML.split(`{{ ${key} }}`).join(this.state[key]);
-            }
+        const cartDiv = document.getElementById('cart');
+        if (Shop.myUser.cart.length <= 0) {
+            cartDiv.innerHTML = "<H2>No Items Currently in Cart</H2>";
         }
-    }
-    addItem(item) {
-        // Add the component to the canvas's components array
-        this.items.push(item);
-        // Set the component's canvas property to this canvas
-        item.shop = this;
-        // Render the components
-        this.render();
+        else {
+            cartDiv.replaceChildren(Shop.myUser.cartHTMLElement());
+            cartDiv.innerHTML = ("<H2>Cart</H2>" + cartDiv.innerHTML);
+            Shop.myUser.addRemoveEventListeners();
+        }
     }
 }
 class User {
-    constructor(
-    // private readonly _id: string = uuidv4(),//DO I EVEN NEED ID?
-    _name, _age, _cart) {
-        this._name = _name;
-        this._age = _age;
-        this._cart = _cart;
+    constructor(name, age) {
+        this._id = (0, uuid_1.v4)();
+        this._name = name;
+        this._age = age;
+        this._cart = [];
     }
     get cart() {
         return this._cart;
@@ -598,25 +387,84 @@ class User {
     set name(value) {
         this._name = value;
     }
-    // public get id(): string {
-    //     return this._id;
-    // }
-    static createUser(name, age) {
-        return new User(name, age, []);
+    get id() {
+        return this._id;
+    }
+    static createUser() {
+        const name = document.getElementById('name').value;
+        const age = parseInt(document.getElementById('age').value);
+        if (age > 0 && name.length > 0) {
+            return new User(name, age);
+        }
+        return;
     }
     addToCart(item) {
         this.cart.push(item);
+        Shop.updateCart();
+    }
+    showCart() {
+        for (let item of this.cart) {
+            console.log(item.name);
+        }
+    }
+    cartTotal() {
+        let tot = 0;
+        for (let item of this.cart) {
+            tot += item.price;
+        }
+        return tot;
+    }
+    itemQuantity(item) {
+        const quant = this.cart.filter(thisItem => thisItem.id === item.id).length;
+        return quant;
     }
     removeFromCart(item) {
         this.cart = this.cart.filter(cartItem => cartItem.id !== item.id);
+        Shop.updateCart();
     }
     removeQuantityFromCart(item, quantity) {
         for (let i = 0; i < quantity; i++) {
             let indexOfItem = this.cart.findIndex(cartItem => cartItem.id == item.id);
             this.cart.splice(indexOfItem, 1);
         }
+        Shop.updateCart();
+    }
+    cartHTMLElement() {
+        const cartItems = document.createElement('div');
+        cartItems.classList.add('all-cart-items', 'bg-success-subtle', 'bg-rounded');
+        for (const item of new Set(this.cart)) {
+            const cartItem = document.createElement('div');
+            cartItem.classList.add('mt-4', 'mb-2');
+            cartItem.textContent = `${this.itemQuantity(item)} ~~ ${item.name} @ $${item.price}`;
+            const removeAllButton = document.createElement('button');
+            removeAllButton.textContent = 'Clear';
+            removeAllButton.classList.add('btn', `${item.id}-remove`, 'btn-outline-success', 'ms-4', 'ps-4');
+            removeAllButton.id = `${item.id}-remove`;
+            const removeOneButton = document.createElement('button');
+            removeOneButton.textContent = '-1';
+            removeOneButton.classList.add('btn', `${item.id}-remove-one`, 'btn-outline-success', 'ms-4', 'ps-4');
+            removeOneButton.id = `${item.id}-remove-one`;
+            cartItem.appendChild(removeAllButton);
+            cartItem.appendChild(removeOneButton);
+            cartItems.appendChild(cartItem);
+        }
+        const cartTot = document.createElement('div');
+        cartTot.textContent = `Total - $${this.cartTotal()}`;
+        cartItems.appendChild(cartTot);
+        return cartItems;
     }
     addRemoveEventListeners() {
+        this._cart.forEach(item => {
+            const removeAll = document.querySelectorAll(`.${item.id}-remove`);
+            removeAll.forEach(button => {
+                button.addEventListener("click", () => Shop.myUser.removeFromCart(item));
+            });
+            const removeOne = document.getElementById(`${item.id}-remove-one`) || null;
+            if (removeOne) {
+                removeOne.onclick = () => { var _a; return (_a = Shop.myUser) === null || _a === void 0 ? void 0 : _a.removeQuantityFromCart(item, 1); };
+            }
+            ;
+        });
     }
 }
 const loginPress = document.getElementById('login');
@@ -626,10 +474,11 @@ if (loginPress) {
     });
 }
 else {
-    console.error('no login');
+    console.error('no login button');
 }
-(_a = document
-    .getElementById('login')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', (e) => Shop.loginUser(e));
+document
+    .getElementById('login')
+    .addEventListener('click', (e) => Shop.loginUser(e));
 
 })();
 
